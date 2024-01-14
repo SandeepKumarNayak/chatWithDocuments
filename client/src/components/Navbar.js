@@ -14,6 +14,7 @@ export default function Navbar() {
     left: false,
   });
 
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -56,18 +57,18 @@ export default function Navbar() {
           <h2 style={{ textAlign: "center" }}>Chat</h2>
           <Box sx={{display:'flex', flexDirection:'column',marginTop:'20px'}}>
              <Typography variant="h5">Uploaded Files</Typography>
-            <Box sx={{display:'flex'}}>
-            <input type="checkbox" checked></input>
-            <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-            </Box>
-            <Box sx={{display:'flex'}}>
-            <input type="checkbox" checked></input>
-            <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-            </Box>
-            <Box sx={{display:'flex'}}>
-            <input type="checkbox" checked></input>
-            <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-            </Box>
+              <Box sx={{display:'flex'}}>
+              <input type="checkbox" checked></input>
+              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
+              </Box>
+              <Box sx={{display:'flex'}}>
+              <input type="checkbox" checked></input>
+              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
+              </Box>
+              <Box sx={{display:'flex'}}>
+              <input type="checkbox" checked></input>
+              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
+              </Box>
             
           </Box>
           <FileUpload />
