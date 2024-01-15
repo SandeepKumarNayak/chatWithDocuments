@@ -6,15 +6,20 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
          
     }
     reqQues.ques = searchValue;
-     
-    const {data} =  await axios.post(`${url}/qna/`, reqQues);
     const myData = {
         'type':'output'
     }
-    myData.content = data.result;
-    myData.source = data.source;
-    console.log(data)
-    
+    myData.loader = "true";
     handleDataFromSearchBar((prevValue) => [...prevValue, myData]);
-    // console.log(data)
+
+   
+    const {data} =  await axios.post(`${url}/qna/`, reqQues);
+    
+    myData.source = data.source;
+    myData.content = data.result;
+   
+    myData.loader = "false";
+    handleDataFromSearchBar((prevValue) => [...prevValue])
+
+ 
 }
