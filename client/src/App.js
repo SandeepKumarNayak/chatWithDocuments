@@ -16,7 +16,6 @@ function App() {
     <div>
       <Navbar />
       <Home quesAns={quesAns} />
-    
       <SearchBar  handleDataFromSearchBar={handleDataFromSearchBar} setQuesAns={setQuesAns} />
     </div>
   );

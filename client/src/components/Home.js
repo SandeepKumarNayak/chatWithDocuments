@@ -1,14 +1,21 @@
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import "../App.css";
 import React from "react";
-import { Person } from "@mui/icons-material";
+import Loader from 'react-js-loader';
+import { useRef, useEffect } from "react";
 
 function Home({ quesAns }) {
+
+  const chatbox = useRef(null);
+  useEffect(() => chatbox?.current?.scrollIntoView(false), [quesAns]);
   return (
-    <div className="homeContainer" style={{ width: "100%" }}>
+    <>
+     {
+      quesAns.length ? ( <div  className="homeContainer" style={{ width: "100%"}}>
       {quesAns.map((val, indx) => {
         return (
           <div
+          ref={chatbox}
             key={indx}
             style={{
               width: "100%",
@@ -16,36 +23,37 @@ function Home({ quesAns }) {
               display: "flex",
               marginBottom: "15px",
               margin: "auto",
+              padding:'10px 20px',
+              background:'white'
             }}
           >
             {
-              val.type==='input'?( <div style={{display:'flex',justifyContent:'right',width:'100%',padding:'5px 20px'}}>
-              {val.content}
-            </div>):(<><Box
-              sx={{
-                width: "30px",
-                height: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50%",
-                boxShadow: "0 0 5px rgba(0,0,0,0.5)",
-                transform: "translateY(-5px)",
-                marginRight: "4px",
-              }}
-            >
-              <Person />
+              val.type==='input'?( <div style={{color:'rgba(0,0,0,0.8)',display:'flex',justifyContent:'right',width:'80%',marginLeft:'auto',marginRight:0,padding:'10px'}}>
+                 <p style={{fontFamily:'kanit'}}>{val.content}</p>
+            </div>):(<>
+            <Box>
+
+            <Avatar sx={{boxShadow:'0 0 5px rgba(0,0,0,0.5)'}} src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg" />
             </Box>
+            
             <Box
               sx={{ marginLeft: "5px", marginBottom: "10px" }}
               className="inputOutputContainer"
             >
-              <h4>AI</h4>
+              <h4 style={{marginTop:'5px',marginLeft:'10px'}}>AI</h4>
               <div
                 className="ai-output"
-                style={{ color: "black", padding: "5px", marginTop: "5px" }}
+                style={{  padding: "10px",borderRadius:'5px',color:'rgba(0,0,0,0.8)',width:'90%' }}
               >
-                {`${val.content} \n\nSource: ${val.source}`}
+               {
+                val.loader === 'true'?(<div style={{display:'flex',marginLeft:'-60px', marginTop:'-20px'}}>
+                <Loader type="bubble-scale"   bgColor='rgba(0,0,0,0.8)'  size={20} />
+                </div>):(<p  style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p>)
+               }
+               
+               
+                {/* <p  style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p> */}
+                {/* <p>{val.source}</p> */}
               </div>
             </Box></>)
             }
@@ -56,7 +64,29 @@ function Home({ quesAns }) {
           </div>
         );
       })}
-    </div>
+    </div>):(<Box className="homeContainer" style={{ width: "100%"}}>
+      <Box sx={{
+              width: "100%",
+              maxWidth: "700px",
+              display: "flex",
+              alignItems:'center',
+              justifyContent:'center',
+              padding:'10px 20px',
+              flexDirection:'column',
+              color:'rgba(0,0,0,0.8)',
+              margin:'100px auto'
+            
+            }}>
+               <img style={{width:'200px'}} src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg" alt="robot" />
+              <h3>
+
+             Chat with your personal data
+              </h3>
+      </Box>
+    </Box>)
+     }
+   
+    </>
   );
 }
 

@@ -19,6 +19,7 @@ const FileUpload = () => {
       for (let i = 0; i < selectedFiles.length; i++) {
         formData.append('file', selectedFiles[i]);
       }
+      setMessage('Please wait....');
       const response = await fetch('http://127.0.0.1:8000/upload/', {
         method: 'POST',
         body: formData,
