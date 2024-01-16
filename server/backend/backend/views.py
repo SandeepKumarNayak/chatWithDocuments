@@ -2,9 +2,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from .serializers import FileUploadSerializer
+from rest_framework.parsers import MultiPartParser
 from django.conf import settings
 import os
 from .helpers import askQna, load_document, chunk_data, create_embeddings, ask_and_get_answer
+import json
+from .models import UploadedFile
 
 class QuestionAns(APIView):
     def post(self, request):
@@ -22,38 +25,69 @@ class QuestionAns(APIView):
             return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 class UploadFile(APIView):
+    parser_classes = (MultiPartParser, )
     def post(self, request):
         try:
-            print(request.data)
             requestFiles = request.FILES.getlist('file')
             files = []
             for file in requestFiles:
-                print(file.name)
+                file_instance = UploadedFile(file=file)
+                file_instance.save()
                 serializer = FileUploadSerializer(data={'file': file})
-                
                 if serializer.is_valid():
-                    uploaded_file = serializer.validated_data['file']
                     
-                    # print("Uploaded", uploaded_file)
                     bytes_data = "" 
-                    bytes_data = uploaded_file.read()
+                    bytes_data = file.read()
                     print(type(bytes_data))
-                    file_name = os.path.join('../backend/files/', uploaded_file.name)
-                    files.append(file_name)
-                    with open(file_name, 'wb') as f:
-                        f.write(bytes_data)
-                else:
-                    return Response("File Format Not correct", status=status.HTTP_400_BAD_REQUEST)
             
-            print(files)
-            data = load_document(files)
+            files = UploadedFile.objects.all()
+            print("Here", UploadedFile.objects.count())
+
+            file_names = [os.path.join(settings.MEDIA_ROOT, f.file.name) for f in files]
+            print(file_names)
+            data = load_document(file_names)
             chunks = chunk_data(data)
             settings.vector_store = create_embeddings(chunks)
             print(type(settings.vector_store))
 
             return Response({'message': 'File uploaded successfully'}, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as ex:
+            print("Exception", ex)
+            return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
+  
+
+    def get(self, request):
+        try:
+            files = UploadedFile.objects.all()
+            print("Here", UploadedFile.objects.count())
+            data = []
+            for file in files:
+                file_data = {
+                    'id': file.id,
+                    'file_name': file.file.name,
+                    'file_size': file.file.size
+                }
+                data.append(file_data)
+            
+            with open('uploaded_files.json', 'w') as f:
+                json.dump(data, f)
+            
+            return Response(data, status=status.HTTP_200_OK)
+        except Exception as ex:
+            return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class YourGPT(APIView):
+    def post(self, request):
+        try:
+            question = request.data
+            q = question['ques']
+            ans = askQna(q)
+            return Response(ans, status=status.HTTP_201_CREATED)
+        except Exception as ex:
+            return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        
+
 
 

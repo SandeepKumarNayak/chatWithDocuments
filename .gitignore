@@ -1,3 +1,4 @@
 /client/node_modules
 /server/backend/.env/
 /server/venv/
+/server/backend/media

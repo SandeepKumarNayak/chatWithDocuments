@@ -27,6 +27,7 @@ const FileUpload = () => {
       if (response.ok) {
         setMessage('Files uploaded successfully!');
       } else {
+        console.log(response)
         setMessage('Failed to upload files.');
       }
       }

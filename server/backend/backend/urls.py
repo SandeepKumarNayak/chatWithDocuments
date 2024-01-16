@@ -16,10 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import QuestionAns, UploadFile
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import QuestionAns, UploadFile, YourGPT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('qna/',QuestionAns.as_view(), name='qna'),
-    path('upload/', UploadFile.as_view(), name='upload')
+    path('upload/', UploadFile.as_view(), name='upload'),
+    path('chat/',YourGPT.as_view(), name='chat')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

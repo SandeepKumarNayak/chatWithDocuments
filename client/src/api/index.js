@@ -18,3 +18,9 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
     handleDataFromSearchBar((prevValue) => [...prevValue, myData]);
     // console.log(data)
 }
+
+export const getFiles = async () => {
+  const { data } = await axios.get(`${url}/upload/`);
+  console.log(data);
+  return data;
+};

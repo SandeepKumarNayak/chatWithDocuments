@@ -1,4 +1,8 @@
 from rest_framework import serializers
+from .models import UploadedFile
+
 
 class FileUploadSerializer(serializers.Serializer):
-    file = serializers.FileField()
+    class Meta:
+        model = UploadedFile
+        file = serializers.FileField()
