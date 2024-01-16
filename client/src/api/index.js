@@ -12,6 +12,7 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
     myData.loader = "true";
     handleDataFromSearchBar((prevValue) => [...prevValue, myData]);
 
+
    
     const {data} =  await axios.post(`${url}/qna/`, reqQues);
     
@@ -23,3 +24,11 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
 
  
 }
+ 
+}
+
+export const getFiles = async () => {
+  const { data } = await axios.get(`${url}/upload/`);
+  console.log(data);
+  return data;
+};
