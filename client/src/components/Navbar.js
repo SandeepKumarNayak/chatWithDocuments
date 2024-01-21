@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import FileUpload from "./FileUpload";
 
-export default function Navbar() {
+export default function Navbar({files, handleGetFiles}) {
   const [state, setState] = React.useState({
     left: false,
   });
@@ -56,52 +56,28 @@ export default function Navbar() {
           <Box
             sx={{ display: "flex", flexDirection: "column", marginTop: "20px" }}
           >
-            <Typography variant="h5">Uploaded Files</Typography>
-            <Box sx={{ display: "flex" }}>
-              <input type="checkbox" checked></input>
+            <Typography variant="h5" sx={{mb:'10px'}}>Uploaded Files</Typography>
+            {
+              files.length ? (
+                files.map((file,indx)=>{
+                  return(
+                    <Box key={indx} sx={{ display: "flex" }}>
+              <input type="checkbox" disabled checked></input>
               <Typography
                 sx={{ marginLeft: "15px", fontSize: "16px" }}
                 variant="h5"
               >
-                Resume4.pdf
+                
+                {file.file_name}
               </Typography>
             </Box>
-            <Box sx={{ display: "flex" }}>
-              <input type="checkbox" checked></input>
-              <Typography
-                sx={{ marginLeft: "15px", fontSize: "16px" }}
-                variant="h5"
-              >
-                Resume4.pdf
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex" }}>
-              <input type="checkbox" checked></input>
-              <Typography
-                sx={{ marginLeft: "15px", fontSize: "16px" }}
-                variant="h5"
-              >
-                Resume4.pdf
-              </Typography>
-            </Box>
-=======
-          <Box sx={{display:'flex', flexDirection:'column',marginTop:'20px'}}>
-             <Typography variant="h5">Uploaded Files</Typography>
-              <Box sx={{display:'flex'}}>
-              <input type="checkbox" checked></input>
-              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-              </Box>
-              <Box sx={{display:'flex'}}>
-              <input type="checkbox" checked></input>
-              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-              </Box>
-              <Box sx={{display:'flex'}}>
-              <input type="checkbox" checked></input>
-              <Typography sx={{marginLeft:'15px',fontSize:'16px'}} variant="h5">Resume4.pdf</Typography>
-              </Box>
-            
+                  )
+                })
+                
+              ):(<p>You do not have any file</p>)
+            }
           </Box>
-          <FileUpload />
+          <FileUpload handleGetFiles={handleGetFiles} />
         </Box>
       </Drawer>
     </Box>

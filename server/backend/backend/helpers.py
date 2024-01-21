@@ -34,7 +34,7 @@ def load_document(files):
 
 
 
-def chunk_data(data, chunk_size=256, chunk_overlap=20):
+def chunk_data(data, chunk_size=512, chunk_overlap=20):
   from langchain.text_splitter import RecursiveCharacterTextSplitter
   text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
   chunks = text_splitter.split_documents(data)
@@ -51,7 +51,7 @@ def create_embeddings(chunks):
   return db
 
 
-def ask_and_get_answer(db, q, k=3):
+def ask_and_get_answer(db, q, k=10):
   from langchain.chains import RetrievalQA
   from langchain.chat_models import ChatOpenAI
 

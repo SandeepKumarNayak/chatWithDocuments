@@ -1,13 +1,19 @@
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Button } from "@mui/material";
 import "../App.css";
 import React from "react";
 import Loader from 'react-js-loader';
 import { useRef, useEffect } from "react";
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Home({ quesAns }) {
-
+function Home({ quesAns}) {
   const chatbox = useRef(null);
   useEffect(() => chatbox?.current?.scrollIntoView(false), [quesAns]);
+
+  const openPdfInNewTab = () => {
+    const pdfPath = "C:/Users/asus/Desktop/LangChain/kalidas.pdf"; // Update this with the path to your local PDF file
+    window.open(pdfPath, '_blank');
+  };
   return (
     <>
      {
@@ -48,19 +54,13 @@ function Home({ quesAns }) {
                {
                 val.loader === 'true'?(<div style={{display:'flex',marginLeft:'-60px', marginTop:'-20px'}}>
                 <Loader type="bubble-scale"   bgColor='rgba(0,0,0,0.8)'  size={20} />
-                </div>):(<p  style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p>)
+                </div>):(<> <p style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p><p>References:  <Button onClick={openPdfInNewTab}>Click Me</Button>
+</p></>)
                }
                
-               
-                {/* <p  style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p> */}
-                {/* <p>{val.source}</p> */}
               </div>
             </Box></>)
             }
-           
-
-            
-            
           </div>
         );
       })}
@@ -80,9 +80,10 @@ function Home({ quesAns }) {
                <img style={{width:'200px'}} src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg" alt="robot" />
               <h3>
 
-             Chat with your personal data
+             Chat with your documents
               </h3>
       </Box>
+      <ToastContainer />
     </Box>)
      }
    

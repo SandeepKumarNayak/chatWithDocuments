@@ -1,14 +1,19 @@
  import { CloudUpload } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
+import { getFiles } from '../api';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
-const FileUpload = () => {
+const FileUpload = ({handleGetFiles}) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [message, setMessage] = useState('');
 
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
   };
+
+  const notify = () => toast.success("File uploaded successfully!");
 
   const handleUpload = async () => {
     try {
@@ -27,6 +32,9 @@ const FileUpload = () => {
 
       if (response.ok) {
         setMessage('Files uploaded successfully!');
+        notify();
+
+        getFiles(handleGetFiles);
       } else {
         console.log(response)
         setMessage('Failed to upload files.');
@@ -44,6 +52,7 @@ const FileUpload = () => {
       <input style={{padding:'20px',border:'1px solid black',borderStyle:'dashed',borderRadius:'5px',cursor:'pointer'}} type="file" multiple onChange={handleFileChange} />
       <Button sx={{marginTop:'20px'}} startIcon={<CloudUpload />} variant='contained' onClick={handleUpload}>Upload Files</Button>
       <p>{message}</p>
+      <ToastContainer />
     </div>
   );
 };

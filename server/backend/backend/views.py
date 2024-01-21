@@ -16,6 +16,12 @@ class QuestionAns(APIView):
             q = question['ques']
             vector_store = settings.vector_store
             ans = ask_and_get_answer(vector_store, q)
+            # print("*"*100)
+            # print(ans["source_documents"])
+            # print("*"*100)
+            # reference = ans["source_documents"][0].metadata["source"]
+            # refr = reference.split('\\')
+            
             response = {
                 'result': ans["result"],
                 'source': ans["source_documents"][0].metadata["source"]
@@ -59,6 +65,10 @@ class UploadFile(APIView):
 
     def get(self, request):
         try:
+            # all_instances = UploadedFile.objects.all()
+            # all_instances.delete()
+            # return Response(UploadedFile.objects.count(), status=status.HTTP_200_OK)
+
             files = UploadedFile.objects.all()
             print("Here", UploadedFile.objects.count())
             data = []
@@ -74,6 +84,7 @@ class UploadFile(APIView):
                 json.dump(data, f)
             
             return Response(data, status=status.HTTP_200_OK)
+             
         except Exception as ex:
             return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -88,6 +99,3 @@ class YourGPT(APIView):
             return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         
-
-
-
