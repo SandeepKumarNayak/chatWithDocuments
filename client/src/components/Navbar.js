@@ -5,12 +5,12 @@ import Drawer from "@mui/material/Drawer";
 import { Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import FileUpload from "./FileUpload";
+import EditFiles from "./EditFiles";
 
-export default function Navbar({files, handleGetFiles}) {
+export default function Navbar({ files, handleGetFiles }) {
   const [state, setState] = React.useState({
     left: false,
   });
-
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -32,7 +32,7 @@ export default function Navbar({files, handleGetFiles}) {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 40px",
-        marginBottom:'10px'
+        marginBottom: "10px",
       }}
     >
       <Typography
@@ -56,27 +56,32 @@ export default function Navbar({files, handleGetFiles}) {
           <Box
             sx={{ display: "flex", flexDirection: "column", marginTop: "20px" }}
           >
-            <Typography variant="h5" sx={{mb:'10px'}}>Uploaded Files</Typography>
-            {
-              files.length ? (
-                files.map((file,indx)=>{
-                  return(
-                    <Box key={indx} sx={{ display: "flex" }}>
-              <input type="checkbox" disabled checked></input>
-              <Typography
-                sx={{ marginLeft: "15px", fontSize: "16px" }}
-                variant="h5"
-              >
-                
-                {file.file_name}
-              </Typography>
-            </Box>
-                  )
-                })
-                
-              ):(<p>You do not have any file</p>)
-            }
+            <Typography variant="h5" sx={{ mb: "10px" }}>
+              Uploaded Files
+            </Typography>
+
+            {files.length ? (
+              files.map((file, indx) => {
+                return (
+                  <Box key={indx} sx={{ display: "flex" }}>
+                    <input type="checkbox" disabled checked></input>
+                    <Typography
+                      sx={{ marginLeft: "15px", fontSize: "16px" }}
+                      variant="h5"
+                    >
+                      {file.file_name}
+                    </Typography>
+                  </Box>
+                );
+              })
+
+            ) : (
+              <p>You do not have any file</p>
+            )}
           </Box>
+          {
+            files.length > 0 && (<EditFiles files={files} handleGetFiles = {handleGetFiles} />)
+          }
           <FileUpload handleGetFiles={handleGetFiles} />
         </Box>
       </Drawer>

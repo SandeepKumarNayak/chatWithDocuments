@@ -2,7 +2,7 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { getFiles } from '../api';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 
 const FileUpload = ({handleGetFiles}) => {
@@ -13,7 +13,7 @@ const FileUpload = ({handleGetFiles}) => {
     setSelectedFiles(e.target.files);
   };
 
-  const notify = () => toast.success("File uploaded successfully!");
+  // const notify = () => toast.success("File uploaded successfully!");
 
   const handleUpload = async () => {
     try {
@@ -32,7 +32,7 @@ const FileUpload = ({handleGetFiles}) => {
 
       if (response.ok) {
         setMessage('Files uploaded successfully!');
-        notify();
+        // notify();
 
         getFiles(handleGetFiles);
       } else {

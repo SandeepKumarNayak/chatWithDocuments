@@ -3,9 +3,9 @@ const url = "http://127.0.0.1:8000"
 
 export const qna = async(handleDataFromSearchBar,searchValue) => {
 
+  
   try{
     const reqQues = {
-         
     }
     reqQues.ques = searchValue;
     const myData = {
@@ -15,7 +15,7 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
     handleDataFromSearchBar((prevValue) => [...prevValue, myData]);
    
     const {data} =  await axios.post(`${url}/qna/`, reqQues);
-    
+    console.log(data);
     myData.source = data.source;
     myData.content = data.result;
    
@@ -26,6 +26,8 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
     if(code === "ERR_NETWORK") {
       alert("Server is not running.");
     }  
+    // myData.loader = "false";
+    // handleDataFromSearchBar((prevValue) => [...prevValue])
   }
     
 

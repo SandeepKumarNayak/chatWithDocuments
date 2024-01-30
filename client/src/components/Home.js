@@ -1,92 +1,132 @@
-import { Avatar, Box, Button } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import "../App.css";
 import React from "react";
-import Loader from 'react-js-loader';
+import Loader from "react-js-loader";
 import { useRef, useEffect } from "react";
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Home({ quesAns}) {
+function Home({ quesAns }) {
   const chatbox = useRef(null);
   useEffect(() => chatbox?.current?.scrollIntoView(false), [quesAns]);
 
-  const openPdfInNewTab = () => {
-    const pdfPath = "C:/Users/asus/Desktop/LangChain/kalidas.pdf"; // Update this with the path to your local PDF file
-    window.open(pdfPath, '_blank');
-  };
   return (
     <>
-     {
-      quesAns.length ? ( <div  className="homeContainer" style={{ width: "100%"}}>
-      {quesAns.map((val, indx) => {
-        return (
-          <div
-          ref={chatbox}
-            key={indx}
-            style={{
+      {quesAns.length ? (
+        <div className="homeContainer" style={{ width: "100%" }}>
+          {quesAns.map((val, indx) => {
+            return (
+              <div
+                ref={chatbox}
+                key={indx}
+                style={{
+                  width: "100%",
+                  maxWidth: "700px",
+                  display: "flex",
+                  marginBottom: "15px",
+                  margin: "auto",
+                  padding: "10px 20px",
+                  background: "white",
+                }}
+              >
+                {val.type === "input" ? (
+                  <div
+                    style={{
+                      color: "rgba(0,0,0,0.8)",
+                      display: "flex",
+                      justifyContent: "right",
+                      width: "80%",
+                      marginLeft: "auto",
+                      marginRight: 0,
+                      padding: "10px",
+                    }}
+                  >
+                    <p style={{ fontFamily: "kanit" }}>{val.content}</p>
+                  </div>
+                ) : (
+                  <>
+                    <Box>
+                      <Avatar
+                        sx={{ boxShadow: "0 0 5px rgba(0,0,0,0.5)" }}
+                        src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg"
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{ marginLeft: "5px", marginBottom: "10px" }}
+                      className="inputOutputContainer"
+                    >
+                      <h4 style={{ marginTop: "5px", marginLeft: "10px" }}>
+                        AI
+                      </h4>
+                      <div
+                        className="ai-output"
+                        style={{
+                          padding: "10px",
+                          borderRadius: "5px",
+                          color: "rgba(0,0,0,0.8)",
+                          width: "90%",
+                        }}
+                      >
+                        {val.loader === "true" ? (
+                          <div
+                            style={{
+                              display: "flex",
+                              marginLeft: "-60px",
+                              marginTop: "-20px",
+                            }}
+                          >
+                            <Loader
+                              type="bubble-scale"
+                              bgColor="rgba(0,0,0,0.8)"
+                              size={20}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            {" "}
+                            <p style={{ fontFamily: "kanit", fontWeight: 400 }}>
+                              {val.content}
+                            </p>
+                            <p>
+                              References:{" "}
+                              <a href={val.source}> {val.source} </a>
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    </Box>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <Box className="homeContainer" style={{ width: "100%" }}>
+          <Box
+            sx={{
               width: "100%",
               maxWidth: "700px",
               display: "flex",
-              marginBottom: "15px",
-              margin: "auto",
-              padding:'10px 20px',
-              background:'white'
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "10px 20px",
+              flexDirection: "column",
+              color: "rgba(0,0,0,0.8)",
+              margin: "100px auto",
             }}
           >
-            {
-              val.type==='input'?( <div style={{color:'rgba(0,0,0,0.8)',display:'flex',justifyContent:'right',width:'80%',marginLeft:'auto',marginRight:0,padding:'10px'}}>
-                 <p style={{fontFamily:'kanit'}}>{val.content}</p>
-            </div>):(<>
-            <Box>
-
-            <Avatar sx={{boxShadow:'0 0 5px rgba(0,0,0,0.5)'}} src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg" />
-            </Box>
-            
-            <Box
-              sx={{ marginLeft: "5px", marginBottom: "10px" }}
-              className="inputOutputContainer"
-            >
-              <h4 style={{marginTop:'5px',marginLeft:'10px'}}>AI</h4>
-              <div
-                className="ai-output"
-                style={{  padding: "10px",borderRadius:'5px',color:'rgba(0,0,0,0.8)',width:'90%' }}
-              >
-               {
-                val.loader === 'true'?(<div style={{display:'flex',marginLeft:'-60px', marginTop:'-20px'}}>
-                <Loader type="bubble-scale"   bgColor='rgba(0,0,0,0.8)'  size={20} />
-                </div>):(<> <p style={{fontFamily:'kanit',fontWeight:400}}>{val.content}</p><p>References:  <Button onClick={openPdfInNewTab}>Click Me</Button>
-</p></>)
-               }
-               
-              </div>
-            </Box></>)
-            }
-          </div>
-        );
-      })}
-    </div>):(<Box className="homeContainer" style={{ width: "100%"}}>
-      <Box sx={{
-              width: "100%",
-              maxWidth: "700px",
-              display: "flex",
-              alignItems:'center',
-              justifyContent:'center',
-              padding:'10px 20px',
-              flexDirection:'column',
-              color:'rgba(0,0,0,0.8)',
-              margin:'100px auto'
-            
-            }}>
-               <img style={{width:'200px'}} src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg" alt="robot" />
-              <h3>
-
-             Chat with your documents
-              </h3>
-      </Box>
-      <ToastContainer />
-    </Box>)
-     }
-   
+            <img
+              style={{ width: "200px" }}
+              src="https://static.vecteezy.com/system/resources/previews/004/996/790/non_2x/robot-chatbot-icon-sign-free-vector.jpg"
+              alt="robot"
+            />
+            <h3>Chat with your documents</h3>
+          </Box>
+          <ToastContainer />
+        </Box>
+      )}
     </>
   );
 }
