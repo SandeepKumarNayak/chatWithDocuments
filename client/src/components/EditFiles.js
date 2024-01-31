@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Loader from "react-js-loader";
+import { getFiles } from '../api';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -15,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function EditFiles({files, handleGetFiles}) {
   const [open, setOpen] = React.useState(false);
-
+  // const [message, setMessage] = React.useState('');
   const [loader, setLoader] = React.useState(false);
   const [deleteFiles, setDeleteFiles] = React.useState([]);
 
@@ -43,19 +44,38 @@ export default function EditFiles({files, handleGetFiles}) {
     setDeleteFiles([]);
     handleClose();
   }
-  const handleDeleteFiles = () => {
+  const handleDeleteFiles = async () => {
      let myFiles = [];
      for(let i=0;i<files.length;i++) {
         if(deleteFiles.includes(files[i].id)) {
-            continue;
-        } else {
-            myFiles.push(files[i]);
+          myFiles.push(files[i].id);
         }
      }
+     console.log("Before: ", myFiles);
      setLoader(true);
-     setTimeout(() => {
+     setTimeout(async () => {
         setLoader(false);
-        handleGetFiles(myFiles);
+        // deleteFiles(myFiles);
+        // console.log(typeof(deleteFiles));
+        const response = await fetch('http://127.0.0.1:8000/upload/', {
+          method: 'DELETE',
+          body: JSON.stringify({ids: myFiles}),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+
+        if (response.ok) {
+          // setMessage('Files uploaded successfully!');
+          // notify();
+          
+          getFiles(handleGetFiles);
+        } else {
+          console.log(response)
+          // setMessage('Failed to upload files.');
+        }
+        // handleGetFiles(myFiles);
         handleCancelFiles();
         alert("File Deleted Successfully.")
      }, (1000));

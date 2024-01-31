@@ -48,3 +48,15 @@ export const getFiles = async (handleGetFiles) => {
   }
   
 };
+
+// export const deleteFiles = async (files) => {
+//   try {
+//     const {data} = await axios.delete(`${url}/upload/`, files);
+//     return data;
+//   } catch(err) {
+//     const {code} = err;
+//     if(code === "ERR_NETWORK") {
+//       alert("Server is not running.");
+//     }
+//   }
+// };
