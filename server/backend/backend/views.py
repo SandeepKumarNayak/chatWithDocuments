@@ -56,7 +56,7 @@ class UploadFile(APIView):
             files = UploadedFile.objects.all()
             print("Here", UploadedFile.objects.count())
 
-            file_names = [os.path.join(settings.MEDIA_ROOT, f.file) for f in files]
+            file_names = [os.path.join(settings.MEDIA_ROOT, f.file.name) for f in files]
             print("*"*100)
             print(file_names)
             print("*"*100)
@@ -134,6 +134,30 @@ class UploadFile(APIView):
             return Response({'messages': messages}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({'messages': messages}, status=status.HTTP_200_OK)
+    
+
+
+    # update files
+    # def update(self, request, id):
+
+    #     messages = []
+
+    #     files = []
+    #     files = UploadedFile.objects.all()
+    #     print("Here", UploadedFile.objects.count())
+
+    #     file_names = [os.path.join(settings.MEDIA_ROOT, f.file.name) for f in files]
+    #     print("*"*1000)
+    #     print(file_names)
+    #     print("*"*1000)
+    #     data = load_document(file_names)
+    #     chunks = chunk_data(data)
+    #     settings.vector_store = create_embeddings(chunks)        
+    #     if messages.__len__() > 0:
+    #         return Response({'messages': messages}, status=status.HTTP_400_BAD_REQUEST)
+        
+    #     return Response({'messages': messages}, status=status.HTTP_200_OK)
+    
 
         
 

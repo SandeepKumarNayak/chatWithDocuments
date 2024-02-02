@@ -3,9 +3,10 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
 import { Typography } from "@mui/material";
-import { Menu } from "@mui/icons-material";
+import { FilePresent, Menu } from "@mui/icons-material";
 import FileUpload from "./FileUpload";
 import EditFiles from "./EditFiles";
+import UpdateFile from "./UpdateFile";
 
 export default function Navbar({ files, handleGetFiles }) {
   const [state, setState] = React.useState({
@@ -63,25 +64,31 @@ export default function Navbar({ files, handleGetFiles }) {
             {files.length ? (
               files.map((file, indx) => {
                 return (
-                  <Box key={indx} sx={{ display: "flex" }}>
-                    <input type="checkbox" disabled checked></input>
+                  <Box key={indx} sx={{ display: "flex",justifyContent:'space-between',marginBottom:'20px' }}>
+                    <Box sx={{display:'flex'}}>
+                    <FilePresent />
                     <Typography
-                      sx={{ marginLeft: "15px", fontSize: "16px" }}
+                      sx={{ marginLeft: "10px", fontSize: "16px" }}
                       variant="h5"
                     >
                       {file.file_name}
                     </Typography>
+                      </Box>
+                    <UpdateFile handleGetFiles={handleGetFiles} id={file.id} file_name={file.file_name} />
                   </Box>
                 );
               })
-
             ) : (
               <p>You do not have any file</p>
             )}
           </Box>
-          {
-            files.length > 0 && (<EditFiles files={files} handleGetFiles = {handleGetFiles} />)
-          }
+          {/* {files.length > 0 && (
+            <div>
+              {" "}
+              <EditFiles files={files} handleGetFiles={handleGetFiles} />
+              <UpdateFile files={files} handleGetFiles={handleGetFiles} />
+            </div>
+          )} */}
           <FileUpload handleGetFiles={handleGetFiles} />
         </Box>
       </Drawer>

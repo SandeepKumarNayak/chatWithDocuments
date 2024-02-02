@@ -32,8 +32,6 @@ const FileUpload = ({handleGetFiles}) => {
 
       if (response.ok) {
         setMessage('Files uploaded successfully!');
-        // notify();
-
         getFiles(handleGetFiles);
       } else {
         console.log(response)
