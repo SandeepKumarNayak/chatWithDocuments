@@ -135,28 +135,42 @@ class UploadFile(APIView):
         
         return Response({'messages': messages}, status=status.HTTP_200_OK)
     
+    def patch(self, request):
+        id = request.query_params.get('id')
+        requestFiles = request.FILES.getlist('file')
+            
+        try:
+            for file in requestFiles:
+                existing_file = UploadedFile.objects.get(id=id)
+                existing_file_path = os.path.join(settings.MEDIA_ROOT, existing_file.file.name)
+                    
+                if os.path.exists(existing_file_path):
+                    os.remove(existing_file_path)
+                
+                existing_file.file = file
+                existing_file.save()
+                    
+            
+            files = []
+            files = UploadedFile.objects.all()
+            print("Here", UploadedFile.objects.count())
 
-
-    # update files
-    # def update(self, request, id):
-
-    #     messages = []
-
-    #     files = []
-    #     files = UploadedFile.objects.all()
-    #     print("Here", UploadedFile.objects.count())
-
-    #     file_names = [os.path.join(settings.MEDIA_ROOT, f.file.name) for f in files]
-    #     print("*"*1000)
-    #     print(file_names)
-    #     print("*"*1000)
-    #     data = load_document(file_names)
-    #     chunks = chunk_data(data)
-    #     settings.vector_store = create_embeddings(chunks)        
-    #     if messages.__len__() > 0:
-    #         return Response({'messages': messages}, status=status.HTTP_400_BAD_REQUEST)
+            file_names = [os.path.join(settings.MEDIA_ROOT, f.file.name) for f in files]
+            print("*"*1000)
+            print(file_names)
+            print("*"*1000)
+            data = load_document(file_names)
+            chunks = chunk_data(data)
+            settings.vector_store = create_embeddings(chunks)
+                
+            return Response({'message': 'File updated successfully'}, status=status.HTTP_200_OK)
         
-    #     return Response({'messages': messages}, status=status.HTTP_200_OK)
+        except UploadedFile.DoesNotExist:
+            return Response({'message': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
+            
+        except Exception as ex:
+            return Response(str(ex), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
     
 
         
