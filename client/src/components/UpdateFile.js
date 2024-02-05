@@ -9,6 +9,7 @@ import Slide from "@mui/material/Slide";
 import Loader from "react-js-loader";
 import axios from "axios";
 import { Edit } from "@mui/icons-material";
+import { getFiles } from "../api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -40,29 +41,32 @@ export default function UpdateFile({id, file_name,handleGetFiles}) {
     formData.append("file", myFile);
     setLoader(true);
 
-    setTimeout(() => {
-      setLoader(false);
-      alert("File updated Successfully")
-      handleCancelFiles();
-    }, 1500);
-    // axios
-    //   .post("", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     // Handle successful response
-    //     console.log(response.data);
-    //     setLoader(false);
-    //     handleCancelFiles();
-    //   })
-    //   .catch((error) => {
-    //     // Handle error
-    //     console.error(error);
-    //     setLoader(false);
-    //     handleCancelFiles();
-    //   });
+    // setTimeout(() => {
+    //   setLoader(false);
+    //   alert("File updated Successfully")
+    //   handleCancelFiles();
+    // }, 1500);
+    axios
+      .patch(`http://127.0.0.1:8000/upload/?id=${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        // Handle successful response
+        console.log(response.data);
+        setLoader(false);
+        handleCancelFiles();
+        alert("file uploaded successfully");
+        getFiles(handleGetFiles);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+        setLoader(false);
+        handleCancelFiles();
+        alert("Error in file uploading");
+      });
   };
 
   return (
