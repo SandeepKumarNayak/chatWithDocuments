@@ -5,6 +5,9 @@ import Loader from "react-js-loader";
 import { useRef, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import { TypeAnimation } from "react-type-animation";
+ 
+import ReactMarkdown from "react-markdown";
 
 function Home({ quesAns }) {
   const chatbox = useRef(null);
@@ -85,12 +88,24 @@ function Home({ quesAns }) {
                         ) : (
                           <>
                             {" "}
-                            <p style={{ fontFamily: "kanit", fontWeight: 400 }}>
+                            {/* <p style={{whiteSpace:'pre-line', fontFamily: "kanit", fontWeight: 400 }}>
                               {val.content}
-                            </p>
+                            </p> */}
+                            <ReactMarkdown>{val.content}</ReactMarkdown>
                             <p>
                               References:{" "}
-                              <a href={val.source}> {val.source} </a>
+                              {
+                                val?.source?.map((f) => {
+                                  return (
+                                    <>
+                                    <br/>
+                                    {/* <a style={{textDecoration:'none',marginLeft:'20px',marginTop:'20px'}}  href={f}> {f.substring(f.lastIndexOf("\\")+1)} </a> */}
+                                    <a style={{textDecoration:'none',marginLeft:'20px',marginTop:'20px'}}  href={f}> {f} </a>
+                                    </>
+                                  )
+                                })
+                              }
+                               
                             </p>
                           </>
                         )}

@@ -15,22 +15,20 @@ class QuestionAns(APIView):
     def post(self, request):
         try:
             question = request.data
-            print("HEEREEEEEEEE 1")
             q = question['ques']
             vector_store = settings.vector_store
-            print("HEREEEEEE 2")
             ans = ask_and_get_answer(vector_store, q)
-            print("HEEREEEEEEEE 3")
-            # print("*"*100)
-            # print(ans["source_documents"])
-            # print("*"*100)
-            # reference = ans["source_documents"][0].metadata["source"]
-            # refr = reference.split('\\')
-            
+            files = set()
+            for x in ans["source_documents"]:
+                 files.add(x.metadata["source"])
             response = {
                 'result': ans["result"],
-                'source': ans["source_documents"][0].metadata["source"]
+                'source': files
             }
+            # response = {
+            #     'result': ans["result"],
+            #     'source': ans["source_documents"][0].metadata["source"]
+            # }
             return Response(response, status=status.HTTP_201_CREATED)
         except Exception as ex:
             print("EXCFRDGSSFGSRGSRS", ex)

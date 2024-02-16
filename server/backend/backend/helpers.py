@@ -51,7 +51,7 @@ def create_embeddings(chunks):
   return db
 
 
-def ask_and_get_answer(db, q, k=10):
+def ask_and_get_answer(db, q, k=5):
   from langchain.chains import RetrievalQA
   from langchain.chat_models import ChatOpenAI
 

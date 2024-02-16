@@ -18,7 +18,7 @@ export const qna = async(handleDataFromSearchBar,searchValue) => {
     console.log(data);
     myData.source = data.source;
     myData.content = data.result;
-   
+    // console.log(data.result)
     myData.loader = "false";
     handleDataFromSearchBar((prevValue) => [...prevValue])
   } catch(err) {

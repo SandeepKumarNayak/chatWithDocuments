@@ -5,3 +5,23 @@
   font-family: sans-serif;
  
 }
+
+.markdown-body {
+  --md-code-background: #e3dcef;
+  --md-code-text: #4a2b7b;
+  --md-code-tabs: #c6b8dd;
+  --md-code-radius: 4px;
+}
+
+.language-bash{
+  background: rgb(29, 29, 29);
+  display: inline-block;
+  color: white;
+  width:100%;
+  padding: 10px;
+  margin-top: 10px;
+  /* border:2px solid black; */
+  border-radius: 5px;
+  
+  margin-bottom: 10px;
+}
