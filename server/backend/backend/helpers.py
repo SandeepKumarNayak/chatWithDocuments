@@ -55,7 +55,7 @@ def ask_and_get_answer(db, q, k=5):
   from langchain.chains import RetrievalQA
   from langchain.chat_models import ChatOpenAI
 
-  llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.2)
+  llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.4)
   retriever = db.as_retriever(search_type='similarity', search_kwargs={'k':k})
 
   chain = RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever, return_source_documents=True)
@@ -66,8 +66,8 @@ def ask_and_get_answer(db, q, k=5):
 
 def askQna(q):
   from langchain.chat_models import ChatOpenAI
-
-  llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.5)
-
+  llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.6)
   return llm(q)
 
+
+ 

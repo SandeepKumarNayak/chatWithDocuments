@@ -2,3 +2,4 @@
 /server/backend/.env/
 /server/venv/
 /server/backend/media
+/.env
